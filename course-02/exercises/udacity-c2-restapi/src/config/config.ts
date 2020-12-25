@@ -8,24 +8,9 @@ export const config = {
 			"aws_region": process.env.AWS_REGION,
 			"aws_profile": process.env.AWS_PROFILE,
 			"aws_media_bucket": process.env.AWS_MEDIA_BUCKET,
-			"version": 'v4'
+			"version": 'v4',
+			"jwt": {
+				"secret": process.env.JWT_SECRET
+			}
 	}
-	// dev: {
-	// 	username: 'dbkudagram',
-	// 	password: 'szyjlowyJxK3PSsXVR1L',
-	// 	database: 'dbkudagram',
-	// 	host: 'dbkudagram.c1mqxrxl899w.eu-central-1.rds.amazonaws.com',
-	// 	dialect: 'postgres',
-	// 	aws_region: 'eu-central-1',
-	// 	aws_profile: 'default',
-	// 	aws_media_bucket: 'dbkudagram-dev',
-	// 	version: 'v4'
-	// },
-	// prod: {
-	// 	username: '',
-	// 	password: '',
-	// 	database: 'udagram_prod',
-	// 	host: '',
-	// 	dialect: 'postgres',
-	// },
 }
