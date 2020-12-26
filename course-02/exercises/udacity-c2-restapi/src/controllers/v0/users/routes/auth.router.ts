@@ -28,7 +28,7 @@ async function comparePasswords(plainTextPassword: string, hash: string): Promis
 }
 
 function generateJWT(user: User): string {
-    return jwt.sign(user, config.dev.jwt.secret)
+    return jwt.sign(user.toJSON(), config.dev.jwt.secret)
 }
 
 // so, if we do not have an authorization we will return and the next function will not
@@ -126,7 +126,7 @@ router.post('/', async (req: Request, res: Response) => {
     try {
         savedUser = await newUser.save();
     } catch (e) {
-        throw e;
+        throw "error here: " + e;
     }
 
     // Generate JWT
