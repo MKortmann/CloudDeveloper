@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
+const isImageUrl = require('is-image-url');
 
 (async () => {
 
@@ -13,26 +14,22 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
 
-  // app.get('/filteredimage', async (req, res) => {
-
-
-  //   res.send(200).send("worked!");
-
-  // })
   app.get('/filteredimage/', async (req, res) => {
 
     let { image_url } = req.query;
 
     if(!image_url) {
       return res.status(400).send(`image_url is required`);
+    } else if (!isImageUrl(image_url)) {
+      return res.status(400).send(`the image_url is not valid`);
     }
 
-    const checkUrl = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+    const pathOfLocalImage = await filterImageFromURL(image_url);
 
+    res.status(200).sendFile(pathOfLocalImage, () => {
+      deleteLocalFiles([pathOfLocalImage]);
+    });
 
-
-
-    res.send(image_url);
 
   })
 
