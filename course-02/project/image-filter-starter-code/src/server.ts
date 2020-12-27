@@ -21,10 +21,13 @@ const isImageUrl = require('is-image-url');
     if(!image_url) {
       return res.status(400).send(`image_url is required`);
     } else if (!isImageUrl(image_url)) {
-      return res.status(400).send(`the image_url is not valid`);
+      return res.status(422).send(`the image_url is not valid. We can process only jpeg, png, bmp, tiff and giff`);
     }
 
-    const pathOfLocalImage = await filterImageFromURL(image_url);
+    const pathOfLocalImage = await filterImageFromURL(image_url).catch((err) => {
+      res.status(422).send(`Unable to process the image: ${err}`);
+      return "";
+    });
 
     res.status(200).sendFile(pathOfLocalImage, () => {
       deleteLocalFiles([pathOfLocalImage]);
