@@ -8,6 +8,7 @@ import bodyParser from 'body-parser'
 import { V0MODELS } from './controllers/v0/model.index'
 
 (async () => {
+	// import all models
   await sequelize.addModels(V0MODELS);
   // this will allow us to make sure that our database is in
   // sync with out expected models within sequelize
@@ -35,9 +36,9 @@ import { V0MODELS } from './controllers/v0/model.index'
 		next()
 	})
 
-	// it tells our application will use this IndeRouter when
+	// it tells our application will use this IndexRouter when
 	// it encounters the base endpoint /api/v0/
-	// the IndexRouter will have the additional code to do
+	// the IndexRouter will have the additional code to execute
 	// when we reach this endpoint
 	app.use('/api/v0/', IndexRouter)
 
