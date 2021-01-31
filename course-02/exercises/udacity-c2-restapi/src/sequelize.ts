@@ -1,3 +1,4 @@
+// import the sequelize lib
 import { Sequelize } from 'sequelize-typescript'
 import { config } from './config/config'
 

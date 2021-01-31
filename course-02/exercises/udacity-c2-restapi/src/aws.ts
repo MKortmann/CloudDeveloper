@@ -4,10 +4,17 @@ import { config } from './config/config';
 
 const c = config.dev;
 
-//Configure AWS - it get your credentials setup in your home folder .aws
-var credentials = new AWS.SharedIniFileCredentials({profile: c.aws_profile});
-// we store these credentials within the AWS config credentials parameter of that service.
-AWS.config.credentials = credentials;
+
+
+if(c.aws_profile !== "DEPLOYED") {
+  //Configure AWS - it get your credentials setup in your home folder .aws
+  var credentials = new AWS.SharedIniFileCredentials({profile: c.aws_profile});
+  // we store these credentials within the AWS config credentials parameter of that service.
+  AWS.config.credentials = credentials;
+}
+
+
+
 
 //AWS S3 support two different signature version: v4 and v2.
 //"AWS4-HMAC-SHA256" identifies Signature Version 4

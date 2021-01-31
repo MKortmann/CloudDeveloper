@@ -1,9 +1,12 @@
 import express, { Router, Request, Response } from 'express'
+// parser inboud request to help to remove the body from that request
 import bodyParser from 'body-parser'
 
+// use as sudo datastore
 import { Car, cars as cars_list } from './cars'
 import { RSA_NO_PADDING } from 'constants'
-;(async () => {
+
+(async () => {
 	let cars: Car[] = cars_list
 
 	//Create an express applicaiton
@@ -11,7 +14,7 @@ import { RSA_NO_PADDING } from 'constants'
 	//default port to listen
 	const port = 8082
 
-	//use middleware so post bodies
+	//use MIDDLEWARE so post bodies
 	//are accessable as req.body.{{variable}}
 	app.use(bodyParser.json())
 
@@ -72,9 +75,12 @@ import { RSA_NO_PADDING } from 'constants'
 	})
 
 	// @TODO Add an endpoint to GET a list of cars
-	// it should be filterable by make with a query paramater
+	// it should be filterable by make with a query parameter
 	app.get('/cars/', (req: Request, res: Response) => {
 		// destruct our query parameters
+
+		// so, if you use query, then your request should be
+		// http://localhost:8082/cars?make=toyota
 		const { make } = req.query
 		let cars_list = cars
 
@@ -84,6 +90,7 @@ import { RSA_NO_PADDING } from 'constants'
 		}
 
 		return res.status(200).send(cars_list)
+
 	})
 
 	// @TODO Add an endpoint to get a specific car
@@ -95,7 +102,7 @@ import { RSA_NO_PADDING } from 'constants'
 		if (id < 0 || id > cars.length || !id) {
 			return res
 				.status(400)
-				.send('Please, add a valida id between 0 and ' + cars.length)
+				.send('Please, add a valid id between 0 and ' + cars.length)
 		} else {
 			//another way to do without using filter.
 			return res.status(200).send(cars[id])

@@ -1,4 +1,6 @@
 'use strict';
+// migration works in order of time, the reason that the
+// file name starts with date
 /*
   UP MIGRATION: going to the next state
   DOWN MIGRATION: going down to the prior state

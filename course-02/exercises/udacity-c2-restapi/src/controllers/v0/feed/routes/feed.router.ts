@@ -7,10 +7,12 @@ const router: Router = Router();
 
 // Get all feed items
 router.get('/', async (req: Request, res: Response) => {
+    // we get our items from the database using sequelize.
     const items = await FeedItem.findAndCountAll({order: [['id', 'DESC']]});
+    // then we map our data in the db with the signedURL
     items.rows.map((item) => {
             if(item.url) {
-                //this is taking our key of the databas e (item.url)
+                //this is taking our key of the database (item.url)
                 //and try to get an url from S3 so we can access that
                 //resource directly from our client.
                 item.url = AWS.getGetSignedUrl(item.url);
@@ -48,7 +50,7 @@ router.patch('/:id',
 
         // check Caption is valid
         if (!caption) {
-            return res.status(400).send({ message: 'Caption is required or malformed' });
+            return res.status(400).send({ message: 'Caption is missing or malformed' });
         }
 
         // // check Filename is valid
@@ -69,7 +71,7 @@ router.patch('/:id',
 
 // Get a signed url to put a new item in the bucket
 router.get('/signed-url/:fileName',
-    requireAuth,
+
     async (req: Request, res: Response) => {
     let { fileName } = req.params;
     const url = AWS.getPutSignedUrl(fileName);
@@ -103,6 +105,7 @@ router.post('/',
 
     const saved_item = await item.save();
 
+    // here we use our sequlize interface to save our item
     saved_item.url = AWS.getGetSignedUrl(saved_item.url);
     res.status(201).send(saved_item);
 });
