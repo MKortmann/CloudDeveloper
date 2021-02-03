@@ -12,8 +12,8 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.get('/:id', async (req: Request, res: Response) => {
     let { id } = req.params;
-    const item = await User.findByPk(id);
-    res.send(item);
+    const user = await User.findByPk(id);
+    res.send(user);
 });
 
 export const UserRouter: Router = router;

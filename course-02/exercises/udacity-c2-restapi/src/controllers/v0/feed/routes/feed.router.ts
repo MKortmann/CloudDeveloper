@@ -8,7 +8,9 @@ const router: Router = Router();
 // Get all feed items
 router.get('/', async (req: Request, res: Response) => {
     // we get our items from the database using sequelize.
-    const items = await FeedItem.findAndCountAll({order: [['id', 'DESC']]});
+    // findAndCountAll method is a convenience method that combines findAll and count.
+    const items = await FeedItem.findAndCountAll({order: [['id', 'ASC']]});
+    console.log(items);
     // then we map our data in the db with the signedURL
     items.rows.map((item) => {
             if(item.url) {
@@ -18,6 +20,9 @@ router.get('/', async (req: Request, res: Response) => {
                 item.url = AWS.getGetSignedUrl(item.url);
             }
     });
+
+    console.log(items);
+
     res.send(items);
 });
 
@@ -69,7 +74,7 @@ router.patch('/:id',
 });
 
 
-// Get a signed url to put a new item in the bucket
+// Get a signed url to put a new item in the bucket - so, as soon as I get this url, I can upload a item to the bucket without authorization. This link will be valid in my case, that I set, to 5*60 = 5 minutes.
 router.get('/signed-url/:fileName',
 
     async (req: Request, res: Response) => {

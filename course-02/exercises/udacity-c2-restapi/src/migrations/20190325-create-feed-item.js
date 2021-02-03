@@ -1,4 +1,9 @@
 'use strict';
+// more information: https://sequelize.org/master/manual/migrations.html
+// Just like you use version control systems such as Git to manage changes in your source code, you can use migrations to keep track of changes to the database.
+// With migrations you can transfer your existing database into another state and vice versa: those state transitions are saved in migration files, which describe how to get to the new state and how to reverst the changes in order to get back to the old state.
+
+
 // migration works in order of time, the reason that the
 // file name starts with date
 /*
