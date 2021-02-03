@@ -141,4 +141,5 @@ router.get('/', async (req: Request, res: Response) => {
     res.send('auth')
 });
 
+
 export const AuthRouter: Router = router;
