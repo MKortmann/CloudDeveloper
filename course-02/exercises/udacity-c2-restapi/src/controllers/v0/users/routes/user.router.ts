@@ -9,7 +9,7 @@ router.use('/auth', AuthRouter);
 
 // we do not need the method below because it is implemented in the '/auth'
 router.get('/', async (req: Request, res: Response) => {
-    res.send('incomplete')
+    res.send('auth')
 });
 
 router.get('/:email', async (req: Request, res: Response) => {

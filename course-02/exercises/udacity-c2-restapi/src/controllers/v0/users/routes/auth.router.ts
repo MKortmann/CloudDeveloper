@@ -32,7 +32,7 @@ function generateJWT(user: User): string {
 }
 
 // so, if we do not have an authorization we will return and the next function will not
-// be called
+// be called - this is a middleware function that we need also to use the NextFunction lib
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
     if (!req.headers || !req.headers.authorization){
         return res.status(401).send({ message: 'No authorization headers.' });
