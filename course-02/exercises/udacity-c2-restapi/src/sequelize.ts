@@ -1,3 +1,4 @@
+// this file starts a connection between sequelize and your db.
 // import the sequelize lib
 import { Sequelize } from 'sequelize-typescript'
 import { config } from './config/config'

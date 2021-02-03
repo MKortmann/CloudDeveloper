@@ -32,13 +32,15 @@ function generateJWT(user: User): string {
 }
 
 // so, if we do not have an authorization we will return and the next function will not
-// be called
+// be called - this is a middleware function that we need also to use the NextFunction lib
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
     if (!req.headers || !req.headers.authorization){
         return res.status(401).send({ message: 'No authorization headers.' });
     }
 
 
+    // the format is bearer kjdlskjfölsdkfj
+    //so, we split and later on we store only the token_bearer[1]
     const token_bearer = req.headers.authorization.split(' ');
     if(token_bearer.length != 2){
         return res.status(401).send({ message: 'Malformed token.' });
@@ -87,13 +89,13 @@ router.post('/login', async (req: Request, res: Response) => {
         return res.status(401).send({ auth: false, message: 'Unauthorized' });
     }
 
-    // Generate JWT
+    // Generate JWT: it will be generate only after check that it is really the user that we are expecting.
     const jwt = generateJWT(user);
 
     res.status(200).send({ auth: true, token: jwt, user: user.short()});
 });
 
-//register a new user
+//register a new user - we just post a new user to our endpoint
 //so, if your root is: /api&v0/users/auth/
 router.post('/', async (req: Request, res: Response) => {
     const email = req.body.email;
@@ -138,5 +140,6 @@ router.post('/', async (req: Request, res: Response) => {
 router.get('/', async (req: Request, res: Response) => {
     res.send('auth')
 });
+
 
 export const AuthRouter: Router = router;
